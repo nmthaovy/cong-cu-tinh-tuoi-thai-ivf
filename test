@@ -1,0 +1,372 @@
+<title>Công cụ tuổi thai IVF</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --rv-ground:#f1f5fb;
+  --rv-surface:#ffffff;
+  --rv-ink:#1b2636;
+  --rv-muted:#566274;
+  --rv-accent:#0f4fa8;
+  --rv-line:#d3dcea;
+  --rv-note-bg:#fff4d6;
+  --rv-note-bd:#d97706;
+  --rv-note-tx:#5c3b00;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --rv-ground:#0f151e;
+    --rv-surface:#17202c;
+    --rv-ink:#e5ebf4;
+    --rv-muted:#9ba8ba;
+    --rv-accent:#86b4f6;
+    --rv-line:#2a3647;
+    --rv-note-bg:#33280f;
+    --rv-note-bd:#d99a2b;
+    --rv-note-tx:#f3dfae;
+  }
+}
+:root[data-theme="dark"]{
+  --rv-ground:#0f151e;
+  --rv-surface:#17202c;
+  --rv-ink:#e5ebf4;
+  --rv-muted:#9ba8ba;
+  --rv-accent:#86b4f6;
+  --rv-line:#2a3647;
+  --rv-note-bg:#33280f;
+  --rv-note-bd:#d99a2b;
+  --rv-note-tx:#f3dfae;
+}
+body{
+  background:var(--rv-ground);
+  color:var(--rv-ink);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  padding-inline:16px;
+  padding-block:28px 56px;
+}
+.rv-wrap{max-width:760px;margin-inline:auto;display:flex;flex-direction:column;gap:28px}
+.rv-eyebrow{margin:0;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--rv-accent)}
+.rv-h1{margin:4px 0 0;font-size:clamp(24px,5vw,32px);line-height:1.25;font-weight:700;text-wrap:balance}
+.rv-lead{margin:10px 0 0;max-width:65ch;color:var(--rv-muted)}
+.rv-note{margin:0;padding:12px 14px;border-left:4px solid var(--rv-note-bd);border-radius:6px;background:var(--rv-note-bg);color:var(--rv-note-tx);font-size:15px}
+.rv-h2{margin:0 0 10px;font-size:20px;line-height:1.3;font-weight:700;text-wrap:balance}
+.rv-p{margin:0 0 12px;max-width:65ch}
+.rv-stage{padding:4px 0;border-top:1px solid var(--rv-line);border-bottom:1px solid var(--rv-line)}
+.rv-stage-label{margin:12px 0 0;font-size:13px;color:var(--rv-muted)}
+.rv-cases{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.rv-case{padding:9px 14px;border:1px solid var(--rv-accent);border-radius:999px;background:transparent;color:var(--rv-accent);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.rv-case:hover{background:var(--rv-accent);color:var(--rv-surface)}
+.rv-case:focus-visible{outline:2px solid var(--rv-accent);outline-offset:2px}
+.rv-scroll{overflow-x:auto;border:1px solid var(--rv-line);border-radius:10px;background:var(--rv-surface)}
+.rv-table{width:100%;border-collapse:collapse;font-size:15px}
+.rv-table th,.rv-table td{padding:10px 12px;border-bottom:1px solid var(--rv-line);text-align:left;vertical-align:top}
+.rv-table tr:last-child td{border-bottom:0}
+.rv-table th{font-size:13px;font-weight:600;letter-spacing:.03em;color:var(--rv-muted);white-space:nowrap}
+.rv-num{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rv-list{margin:0;padding-left:20px;max-width:65ch;display:flex;flex-direction:column;gap:8px}
+.rv-foot{margin:0;font-size:14px;color:var(--rv-muted);max-width:65ch}
+</style>
+
+<div class="rv-wrap">
+
+<header>
+<p class="rv-eyebrow">Bản xem thử để duyệt</p>
+<h1 class="rv-h1">Công cụ tính tuổi thai IVF và ngày dự sinh</h1>
+<p class="rv-lead">Trang này dùng để duyệt nội dung và cách tính trước khi nhúng công cụ vào bài “Cách tính tuổi thai IVF”. Công cụ bên dưới chạy đúng như bản sẽ lên web.</p>
+</header>
+
+<p class="rv-note"><strong>Đang điền sẵn một ví dụ:</strong> phôi ngày 5, chuyển cách hôm nay 60 ngày. Người duyệt đổi ngày tùy ý rồi bấm “Tính kết quả”.</p>
+
+<section class="rv-stage" aria-label="Công cụ">
+<p class="rv-stage-label">Phần nằm trong khung trắng là toàn bộ công cụ. Phông chữ trên web thật sẽ theo giao diện của web.</p>
+
+<div id="ivf-calc">
+<style>
+#ivf-calc{--ivf-primary:#0f4fa8;--ivf-soft:#eef4fd;--ivf-text:#1f2937;--ivf-muted:#5b6472;--ivf-line:#d7deea;--ivf-err:#b42318;--ivf-warn-bg:#fff4d6;--ivf-warn-bd:#d97706;--ivf-warn-tx:#5c3b00;box-sizing:border-box;width:100%;max-width:720px;margin:24px auto;padding:20px;border:1px solid var(--ivf-line);border-radius:12px;background:#fff;color:var(--ivf-text);font-size:16px;line-height:1.5;text-align:left;overflow:hidden}
+#ivf-calc *{box-sizing:border-box;min-width:0}
+#ivf-calc .ivfcalc-title{margin:0 0 16px;font-size:20px;line-height:1.3;color:var(--ivf-primary);text-transform:none}
+#ivf-calc .ivfcalc-field{margin:0 0 14px}
+#ivf-calc label{display:block;margin:0 0 6px;font-weight:600;font-size:15px}
+#ivf-calc input[type=date],#ivf-calc select{display:block;width:100%;max-width:100%;height:46px;min-height:46px;margin:0;padding:0 12px;border:1px solid var(--ivf-line);border-radius:8px;background-color:#fff;color:var(--ivf-text);font-size:16px;font-family:inherit;line-height:normal}
+#ivf-calc input[type=date]{-webkit-appearance:none;appearance:none}
+#ivf-calc input[type=date]::-webkit-date-and-time-value{text-align:left}
+#ivf-calc input:focus,#ivf-calc select:focus,#ivf-calc button:focus{outline:2px solid var(--ivf-primary);outline-offset:2px}
+#ivf-calc .ivfcalc-hint{margin:6px 0 0;font-size:13px;color:var(--ivf-muted)}
+#ivf-calc .ivfcalc-btn{display:block;width:100%;height:48px;margin:4px 0 0;padding:0;border:0;border-radius:8px;background:var(--ivf-primary);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
+#ivf-calc .ivfcalc-btn:hover{filter:brightness(1.08)}
+#ivf-calc .ivfcalc-error{margin:10px 0 0;color:var(--ivf-err);font-size:14px}
+#ivf-calc .ivfcalc-result{margin:20px 0 0;padding:16px;border-radius:10px;background:var(--ivf-soft);scroll-margin-top:110px}
+#ivf-calc .ivfcalc-hero{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#ivf-calc .ivfcalc-card{padding:14px 12px;border:1px solid var(--ivf-line);border-radius:10px;background:#fff;text-align:center}
+#ivf-calc .ivfcalc-card--ga{background:var(--ivf-primary);border-color:var(--ivf-primary);color:#fff}
+#ivf-calc .ivfcalc-k{display:block;font-size:14px}
+#ivf-calc .ivfcalc-card strong{display:block;margin:2px 0;font-size:28px;line-height:1.2;font-weight:800;color:var(--ivf-primary)}
+#ivf-calc .ivfcalc-card--ga strong{color:#fff}
+#ivf-calc .ivfcalc-sub{display:block;font-size:13px}
+#ivf-calc .ivfcalc-bar{position:relative;height:10px;margin:16px 0 0;border:1px solid var(--ivf-line);border-radius:6px;background:#fff;overflow:hidden}
+#ivf-calc .ivfcalc-bar span{display:block;height:100%;width:0;background:var(--ivf-primary);transition:width .4s}
+#ivf-calc .ivfcalc-bar i{position:absolute;top:0;bottom:0;width:2px;background:#9fb3d1}
+#ivf-calc .ivfcalc-tri{display:grid;grid-template-columns:35% 35% 30%;margin:4px 0 0;font-size:12px;color:var(--ivf-muted)}
+#ivf-calc .ivfcalc-tri span.is-cur{color:var(--ivf-primary);font-weight:700}
+#ivf-calc .ivfcalc-alert{margin:14px 0 0;padding:10px 12px;border-left:4px solid var(--ivf-warn-bd);border-radius:6px;background:var(--ivf-warn-bg);color:var(--ivf-warn-tx);font-size:14px}
+#ivf-calc .ivfcalc-alert strong{color:inherit}
+#ivf-calc table{display:table!important;width:100%!important;margin:14px 0 0;border-collapse:collapse;background:#fff;font-size:15px}
+#ivf-calc caption{padding:0 0 8px;font-weight:700;text-align:left;caption-side:top;color:var(--ivf-text)}
+#ivf-calc th,#ivf-calc td{padding:9px 10px!important;border:1px solid var(--ivf-line);text-align:left;vertical-align:top}
+#ivf-calc tr.is-done td{color:var(--ivf-muted)}
+#ivf-calc tr.is-now td{background:#fff7e0;font-weight:600}
+#ivf-calc .ivfcalc-toggle{display:inline-block;margin:6px 0 0;padding:8px 0;border:0;background:none;color:var(--ivf-primary);font-size:14px;font-weight:600;font-family:inherit;text-decoration:underline;cursor:pointer}
+#ivf-calc details{margin:10px 0 0;padding:10px 0 0;border-top:1px solid var(--ivf-line);font-size:14px}
+#ivf-calc summary{cursor:pointer;font-weight:600;color:var(--ivf-primary)}
+#ivf-calc details p{margin:8px 0 0}
+#ivf-calc [hidden]{display:none!important}
+@media (max-width:480px){#ivf-calc{padding:14px;margin:16px auto}#ivf-calc .ivfcalc-result{padding:12px}#ivf-calc .ivfcalc-hero{grid-template-columns:1fr}#ivf-calc .ivfcalc-card strong{font-size:26px}#ivf-calc thead{display:none!important}#ivf-calc table,#ivf-calc tbody,#ivf-calc tr,#ivf-calc td{display:block!important;width:100%!important}#ivf-calc tr{border:1px solid var(--ivf-line);border-top:0}#ivf-calc tbody tr.is-first{border-top:1px solid var(--ivf-line)}#ivf-calc td{border:0!important}#ivf-calc td:first-child{padding:9px 10px 0!important;font-size:13px;color:var(--ivf-muted);font-weight:400}#ivf-calc td:last-child{padding:2px 10px 9px!important;font-weight:600}}
+</style>
+<h2 class="ivfcalc-title">Công cụ tính tuổi thai IVF và ngày dự sinh</h2>
+<form class="ivfcalc-form" novalidate>
+<div class="ivfcalc-field">
+<label for="ivfcalc-date" data-out="datelabel">Ngày chuyển phôi</label>
+<input type="date" id="ivfcalc-date" required>
+</div>
+<div class="ivfcalc-field">
+<label for="ivfcalc-age">Tuổi phôi khi chuyển</label>
+<select id="ivfcalc-age">
+<option value="3">Phôi ngày 3</option>
+<option value="5" selected>Phôi ngày 5 (phôi nang)</option>
+<option value="6">Phôi ngày 6</option>
+<option value="2">Phôi ngày 2</option>
+<option value="4">Phôi ngày 4</option>
+<option value="0">Tôi chỉ nhớ ngày chọc hút trứng</option>
+</select>
+<p class="ivfcalc-hint">Phôi tươi và phôi trữ đông tính như nhau: chỉ tính tuổi phôi lúc trữ, không tính thời gian trữ.</p>
+</div>
+<button type="submit" class="ivfcalc-btn">Tính kết quả</button>
+<p class="ivfcalc-error" role="alert" hidden></p>
+</form>
+<div class="ivfcalc-result" aria-live="polite" hidden>
+<div class="ivfcalc-hero">
+<div class="ivfcalc-card ivfcalc-card--ga"><span class="ivfcalc-k">Tuổi thai hôm nay</span><strong data-out="ga"></strong><span class="ivfcalc-sub" data-out="gasub"></span></div>
+<div class="ivfcalc-card"><span class="ivfcalc-k">Ngày dự sinh dự kiến</span><strong data-out="edd"></strong><span class="ivfcalc-sub" data-out="eddsub"></span></div>
+</div>
+<div class="ivfcalc-bar" role="img" aria-label="Tiến trình thai kỳ"><span data-out="bar"></span><i style="left:35%"></i><i style="left:70%"></i></div>
+<div class="ivfcalc-tri" data-out="tri"><span>3 tháng đầu</span><span>3 tháng giữa</span><span>3 tháng cuối</span></div>
+<p class="ivfcalc-alert"><strong>Lưu ý:</strong> kết quả chỉ để tham khảo. Thai IVF được tính tuổi theo tuổi phôi và ngày chuyển phôi; lịch khám cụ thể do bác sĩ điều trị chỉ định.</p>
+<table>
+<caption data-out="cap">Các mốc khám sắp tới</caption>
+<thead><tr><th scope="col">Mốc</th><th scope="col">Thời gian</th></tr></thead>
+<tbody data-out="rows"></tbody>
+</table>
+<button type="button" class="ivfcalc-toggle" hidden></button>
+<details>
+<summary>Cần điền “ngày đầu kỳ kinh cuối” vào app hoặc sổ khám thai?</summary>
+<p>Thai IVF không tính theo kỳ kinh thật. Hãy nhập ngày quy đổi: <strong data-out="lmp"></strong></p>
+</details>
+</div>
+<script>
+(function(){
+var root=document.getElementById('ivf-calc');
+if(!root){return;}
+var DAY=86400000;
+/* Mốc khám: [tên, ngày tuổi thai bắt đầu, ngày kết thúc hoặc null]. Bác sĩ Sản duyệt rồi sửa số tại đây. */
+var MILESTONES=[
+['Siêu âm thấy túi thai (tuần 5–6)',35,42],
+['Siêu âm thấy tim thai (tuần 6–7)',42,49],
+['Xét nghiệm NIPT nếu được chỉ định (từ tuần 10)',70,null],
+['Siêu âm đo độ mờ da gáy (tuần 11–13)',77,97],
+['Chuyển sang theo dõi thai tại khoa Sản (từ tuần 12)',84,null],
+['Siêu âm hình thái thai nhi (tuần 18–22)',126,160],
+['Tầm soát tiểu đường thai kỳ (tuần 24–28)',168,196],
+['Thai đủ tháng (từ tuần 37)',259,null]
+];
+var TRI_END=[97,195,280];
+var TRI_NAME=['3 tháng đầu','3 tháng giữa','3 tháng cuối'];
+function q(s){return root.querySelector(s);}
+function out(k){return root.querySelector('[data-out="'+k+'"]');}
+var form=q('.ivfcalc-form');
+var dateEl=q('#ivfcalc-date');
+var ageEl=q('#ivfcalc-age');
+var errEl=q('.ivfcalc-error');
+var resEl=q('.ivfcalc-result');
+var togEl=q('.ivfcalc-toggle');
+var showDone=false;
+function pad(n){return n<10?'0'+n:''+n;}
+function fmt(ms){var d=new Date(ms);return pad(d.getUTCDate())+'/'+pad(d.getUTCMonth()+1)+'/'+d.getUTCFullYear();}
+function parse(v){
+var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+var y,mo,d;
+if(m){y=+m[1];mo=+m[2];d=+m[3];}
+else{m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(v);if(!m){return null;}d=+m[1];mo=+m[2];y=+m[3];}
+var t=Date.UTC(y,mo-1,d);
+var c=new Date(t);
+if(c.getUTCMonth()!==mo-1){return null;}
+if(c.getUTCDate()!==d){return null;}
+return t;
+}
+function today(){var n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate());}
+function weeks(days){var w=Math.floor(days/7);var r=days%7;return w+' tuần'+(r?' '+r+' ngày':'');}
+function span(lmp,a,b){return b===null?'Từ '+fmt(lmp+a*DAY):fmt(lmp+a*DAY)+' – '+fmt(lmp+b*DAY);}
+function fail(msg){errEl.textContent=msg;errEl.hidden=false;resEl.hidden=true;return false;}
+function paintRows(){
+var rows=out('rows').children;
+var done=0;
+var first=true;
+for(var i=0;i<rows.length;i++){
+var r=rows[i];
+r.classList.remove('is-first');
+if(r.classList.contains('is-done')){done++;r.hidden=!showDone;}
+if(!r.hidden){if(first){r.classList.add('is-first');first=false;}}
+}
+if(done===0){togEl.hidden=true;}
+else{togEl.hidden=false;togEl.textContent=showDone?'Ẩn các mốc đã qua':'Xem '+done+' mốc đã qua';}
+out('cap').textContent=showDone?'Các mốc khám dự kiến':'Các mốc khám sắp tới';
+q('table').hidden=(done===rows.length)?!showDone:false;
+}
+function calc(e){
+if(e){e.preventDefault();}
+errEl.hidden=true;
+var age=parseInt(ageEl.value,10);
+var t=parse((dateEl.value||'').trim());
+if(t===null){return fail('Vui lòng chọn ngày hợp lệ (ngày/tháng/năm).');}
+var now=today();
+if(t-now>366*DAY){return fail('Ngày đã nhập cách hôm nay hơn 1 năm. Vui lòng kiểm tra lại.');}
+var lmp=t-(age+14)*DAY;
+var edd=lmp+280*DAY;
+var ga=Math.round((now-lmp)/DAY);
+if(ga>294){return fail('Ngày đã nhập tương ứng tuổi thai hơn 42 tuần. Vui lòng kiểm tra lại ngày.');}
+var future=t>now;
+var left=Math.round((edd-now)/DAY);
+out('edd').textContent=fmt(edd);
+out('eddsub').textContent=left>0?'Còn '+weeks(left):'Đã qua ngày dự sinh dự kiến';
+var tri=out('tri').children;
+for(var k=0;k<3;k++){tri[k].className='';}
+if(future){
+out('ga').textContent='Chưa tính';
+out('gasub').textContent='Ngày đã nhập chưa tới';
+}else{
+var idx=ga<98?0:(ga<196?1:2);
+out('ga').textContent=weeks(ga);
+out('gasub').textContent='Đang ở '+TRI_NAME[idx]+', đến '+fmt(lmp+TRI_END[idx]*DAY);
+tri[idx].className='is-cur';
+}
+var pct=future?0:Math.max(0,Math.min(100,Math.round(ga/280*100)));
+out('bar').style.width=pct+'%';
+out('lmp').textContent=fmt(lmp);
+var body=out('rows');
+while(body.firstChild){body.removeChild(body.firstChild);}
+var list=MILESTONES.slice();
+if(age>0){list.unshift(['Thử máu beta hCG (10–14 ngày sau chuyển phôi)',age+14+10,age+14+14]);}
+for(var i=0;i<list.length;i++){
+var m=list[i];
+var tr=document.createElement('tr');
+var c1=document.createElement('td');
+var c2=document.createElement('td');
+c1.textContent=m[0];
+c2.textContent=span(lmp,m[1],m[2]);
+if(!future){
+var end=m[2]===null?m[1]+13:m[2];
+if(ga>end){tr.className='is-done';}
+else if(ga>=m[1]){tr.className='is-now';}
+}
+tr.appendChild(c1);tr.appendChild(c2);body.appendChild(tr);
+}
+showDone=false;
+paintRows();
+resEl.hidden=false;
+if(resEl.scrollIntoView){resEl.scrollIntoView({behavior:'smooth',block:'nearest'});}
+if(window.dataLayer){window.dataLayer.push({event:'ivf_calc_submit',embryo_age:age});}
+return false;
+}
+form.addEventListener('submit',calc);
+togEl.addEventListener('click',function(){showDone=!showDone;paintRows();});
+ageEl.addEventListener('change',function(){
+out('datelabel').textContent=ageEl.value==='0'?'Ngày chọc hút trứng':'Ngày chuyển phôi';
+});
+})();
+</script>
+</div>
+
+</section>
+
+<section>
+<h2 class="rv-h2">Ca mẫu để đối chiếu</h2>
+<p class="rv-p">Bấm một ca để điền sẵn vào công cụ, rồi so ngày dự sinh với cột bên phải. Ngày dự sinh không phụ thuộc vào ngày mở trang.</p>
+<div class="rv-cases">
+<button type="button" class="rv-case" id="rv-case-1" data-date="2026-03-01" data-age="5">Ca 1</button>
+<button type="button" class="rv-case" id="rv-case-2" data-date="2026-06-12" data-age="6">Ca 2</button>
+<button type="button" class="rv-case" id="rv-case-3" data-date="2026-07-10" data-age="3">Ca 3</button>
+<button type="button" class="rv-case" id="rv-case-4" data-date="2026-06-12" data-age="0">Ca 4</button>
+</div>
+<div class="rv-scroll">
+<table class="rv-table">
+<thead><tr><th scope="col">Ca</th><th scope="col">Dữ liệu nhập</th><th scope="col">Ngày dự sinh phải ra</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Phôi ngày 5, chuyển <span class="rv-num">01/03/2026</span></td><td class="rv-num">17/11/2026</td></tr>
+<tr><td>2</td><td>Phôi ngày 6, chuyển <span class="rv-num">12/06/2026</span></td><td class="rv-num">27/02/2027</td></tr>
+<tr><td>3</td><td>Phôi ngày 3, chuyển <span class="rv-num">10/07/2026</span></td><td class="rv-num">30/03/2027</td></tr>
+<tr><td>4</td><td>Chỉ nhớ ngày chọc hút trứng <span class="rv-num">12/06/2026</span></td><td class="rv-num">05/03/2027</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<h2 class="rv-h2">Cách tính đang dùng</h2>
+<div class="rv-scroll">
+<table class="rv-table">
+<thead><tr><th scope="col">Tuổi phôi</th><th scope="col">Ngày dự sinh</th><th scope="col">Tuổi thai vào ngày chuyển</th></tr></thead>
+<tbody>
+<tr><td>Phôi ngày 3</td><td>Ngày chuyển + <span class="rv-num">263</span> ngày</td><td>2 tuần 3 ngày</td></tr>
+<tr><td>Phôi ngày 5</td><td>Ngày chuyển + <span class="rv-num">261</span> ngày</td><td>2 tuần 5 ngày</td></tr>
+<tr><td>Phôi ngày 6</td><td>Ngày chuyển + <span class="rv-num">260</span> ngày</td><td>2 tuần 6 ngày</td></tr>
+<tr><td>Ngày chọc hút trứng</td><td>Ngày chọc hút + <span class="rv-num">266</span> ngày</td><td>2 tuần</td></tr>
+</tbody>
+</table>
+</div>
+<p class="rv-foot" style="margin-top:10px">Theo khuyến cáo số 700 của Hội Sản Phụ khoa Hoa Kỳ (ACOG) về cách tính ngày dự sinh cho thai IVF.</p>
+</section>
+
+<section>
+<h2 class="rv-h2">Những điểm cần bác sĩ và bên nội dung duyệt</h2>
+<ul class="rv-list">
+<li>Chín mốc khám và khoảng tuần của từng mốc. Bấm “Xem mốc đã qua” trong công cụ để thấy đủ danh sách.</li>
+<li>Mốc “Chuyển sang theo dõi thai tại khoa Sản từ tuần 12” có đúng với quy trình của trung tâm không.</li>
+<li>Câu lưu ý màu vàng dưới kết quả, và câu giải thích phôi tươi với phôi trữ đông.</li>
+<li>Giới hạn nhập: ngày ứng với tuổi thai trên 42 tuần sẽ báo lỗi. Ngày chuyển phôi ở tương lai chỉ hiện ngày dự sinh, chưa hiện tuổi thai.</li>
+<li>Mục “ngày đầu kỳ kinh cuối” quy đổi, dành cho mẹ bầu cần điền vào app hoặc sổ khám thai.</li>
+</ul>
+</section>
+
+<p class="rv-foot">Công cụ không lưu và không gửi ngày người dùng nhập đi đâu. Mọi phép tính chạy ngay trên trình duyệt.</p>
+
+</div>
+
+<script>
+(function(){
+var root=document.getElementById('ivf-calc');
+if(!root){return;}
+var form=root.querySelector('.ivfcalc-form');
+var dateEl=root.querySelector('#ivfcalc-date');
+var ageEl=root.querySelector('#ivfcalc-age');
+var resEl=root.querySelector('.ivfcalc-result');
+function pad(n){return n<10?'0'+n:''+n;}
+function run(date,age,quiet){
+ageEl.value=String(age);
+ageEl.dispatchEvent(new Event('change',{bubbles:true}));
+dateEl.value=date;
+var keep=null;
+if(quiet){keep=resEl.scrollIntoView;resEl.scrollIntoView=function(){};}
+form.dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}));
+if(quiet){resEl.scrollIntoView=keep;}
+}
+var cases=document.querySelectorAll('.rv-case');
+for(var i=0;i<cases.length;i++){
+cases[i].addEventListener('click',function(){
+run(this.getAttribute('data-date'),this.getAttribute('data-age'),false);
+});
+}
+var d=new Date();
+d.setDate(d.getDate()-60);
+run(d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),5,true);
+})();
+</script>
